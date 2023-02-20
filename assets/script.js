@@ -1,19 +1,10 @@
-const leftarrowEl = document.getElementById("fleche_gauche");
-const rightarrowEl = document.getElementById("fleche_droite");
+const leftArrowEl = document.getElementById("fleche_gauche");
+const rightArrowEl = document.getElementById("fleche_droite");
 const img = document.getElementById('banner-image');
 const txt = document.getElementById("span");
-let points = document.getElementsByClassName('dots');
+const dotsContainerEl = document.querySelector(".dots");
 
 
-
-const image = ['slide1.jpg', 'slide2.jpg', 'slide3.jpg', 'slide4.png']
-
-const tagline = [
-	"Impressions tous formats <span>en boutique et en ligne</span>",
-	"Tirages haute définition grand format <span>pour vos bureaux et events</span>",
-	"Grand choix de couleurs <span>de CMJN aux pantones</span>",
-	"Autocollants <span>avec découpe laser sur mesure</span>",
-]
 
 const slides = [
 	{
@@ -36,38 +27,55 @@ const slides = [
 
 let index = 0;
 
-
-function Changement_points() {
-	for(let i=0; i < image.length; i++){
-		points[i].classList.remove('dot_selected');
+for (let i=0; i < slides.length; i++){
+	const dotEl = document.createElement('span');
+	dotEl.classList.add('dot');
+	if( i === index ) {
+		dotEl.classList.add('dot_selected');
 	}
-	points[index].classList.add('dot_selected');
+	dotsContainerEl.appendChild(dotEl);
 }
 
+const dotsEl = document.querySelectorAll('.dot');
+
+function Changement_Classdot() {
+	dotsEl.forEach(item =>{
+		item.classList.remove('dot_selected');
+	})
+	dotsEl[index].classList.add('dot_selected');
+}
+
+// function Changement_points() {
+// 	for(let i=0; i < image.length; i++){
+// 		points[i].classList.remove('dot_selected');
+// 	}
+// 	points[index].classList.add('dot_selected');
+// }
+
 function Changement_src() {
-	img.src= './assets/images/slideshow/' + (image[index]);
+	img.src= './assets/images/slideshow/' + (slides[index].image);
 }
 
 function Changement_innerHTML() {
-	txt.innerHTML = tagline[index];
+	txt.innerHTML = slides[index].tagLine;
 }
 
 
 
-leftarrowEl.addEventListener("click", function(){
+leftArrowEl.addEventListener("click", function(){
 	if (index <= 0 )
-		index = image.length;
+		index = slides.length;
 	index--;
 	Changement_src()
 	Changement_innerHTML()
-	Changement_points();
+	Changement_Classdot();
 } );
 
-rightarrowEl.addEventListener("click", function(){
-	if (index >= image.length-1)
+rightArrowEl.addEventListener("click", function(){
+	if (index >= slides.length-1)
 		index = -1;
 	index++;
 	Changement_src()
 	Changement_innerHTML()
-	Changement_points();
+	Changement_Classdot();
 })
